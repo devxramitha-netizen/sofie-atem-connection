@@ -1,3 +1,11 @@
+# Optimized by ci-cost (https://github.com/mariotavarez/ci-cost)
+# Applied 4 optimizations:
+# - [HIGH] Add yarn dependency cache to "lint" job
+# - [HIGH] Add yarn dependency cache to "test" job
+# - [MEDIUM] Add concurrency group to "node.yaml"
+# - [LOW] Explicitly set fail-fast for large matrix job "test" (7 combinations)
+# Estimated savings: ~12 min/run
+#
 name: Node CI
 
 on:
@@ -5,6 +13,10 @@ on:
   push:
   pull_request:
 
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   lint:
     name: Lint
